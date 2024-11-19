@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-# Función para conectar a la base de datos
+# Función para conectar a la base de datoss
 def obtener_conexion():
     conn = sqlite3.connect('tienda.db')
     conn.row_factory = sqlite3.Row
