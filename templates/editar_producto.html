@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('admin_panel') }}">Inicio</a></li>
+            <li><a href="{{ url_for('admin_ver_enviados') }}">Ver Enviados</a></li>
+            <li><a href="{{ url_for('agregar_producto') }}">Agregar Producto</a></li>
+            <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Editar Producto</h1>
+        <form method="POST" action="{{ url_for('editar_producto', producto_id=producto['id']) }}">
+            <label for="nombre">Nombre del Producto:</label>
+            <input type="text" name="nombre" value="{{ producto['nombre'] }}" required>
+
+            <label for="precio">Precio:</label>
+            <input type="number" step="0.01" name="precio" value="{{ producto['precio'] }}" required>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+</body>
+</html>

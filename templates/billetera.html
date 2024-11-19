@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Billetera Digital</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('cliente_panel') }}">Inicio</a></li>
+            <li><a href="{{ url_for('ver_enviados') }}">Ver Enviados</a></li> <!-- Cambiar a ver_enviados -->
+            <li><a href="{{ url_for('billetera') }}">Ver Billetera</a></li>
+            <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="wallet-container">
+        <h1>Saldo en la Billetera</h1>
+        <p>Total: {{ saldo }} soles</p>
+    </div>
+</body>
+</html>

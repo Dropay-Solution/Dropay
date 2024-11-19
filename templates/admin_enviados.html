@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Envíos de Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('admin_panel') }}">Inicio</a></li>
+            <li><a href="{{ url_for('admin_ver_enviados') }}">Ver Enviados</a></li>
+            <li><a href="{{ url_for('agregar_producto') }}">Agregar Producto</a></li>
+            <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Envíos de Clientes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cliente</th>
+                    <th>Destino</th>
+                    <th>Celular</th>
+                    <th>Fecha de Envío</th>
+                    <th>Estado</th>
+                    <th>Imagen</th>
+                    <th>Actualizar Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for envio in envios %}
+                <tr>
+                    <td>{{ envio['producto_nombre'] }}</td>
+                    <td>{{ envio['usuario_nombre'] }}</td>
+                    <td>{{ envio['destino'] }}</td>
+                    <td>{{ envio['celular'] }}</td>
+                    <td>{{ envio['fecha_envio'] }}</td>
+                    <td>{{ envio['estado'] }}</td>
+                    <td>
+                        <img src="{{ url_for('static', filename='uploads/' ~ envio['imagen']) }}" 
+                             onerror="this.src='{{ url_for('static', filename='uploads/default.png') }}';" 
+                             alt="Imagen del producto" width="100" height="100">
+                    </td>
+                    <td>
+                        <form action="{{ url_for('cambiar_estado', envio_id=envio['id']) }}" method="POST">
+                            <select name="nuevo_estado">
+                                <option value="Enviado" {% if envio['estado'] == 'Enviado' %}selected{% endif %}>Enviado</option>
+                                <option value="Entregado" {% if envio['estado'] == 'Entregado' %}selected{% endif %}>Entregado</option>
+                                <option value="No contesta" {% if envio['estado'] == 'No contesta' %}selected{% endif %}>No contesta</option>
+                                <option value="Rechazado" {% if envio['estado'] == 'Rechazado' %}selected{% endif %}>Rechazado</option>
+                                <option value="Reprogramado" {% if envio['estado'] == 'Reprogramado' %}selected{% endif %}>Reprogramado</option>
+                            </select>
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

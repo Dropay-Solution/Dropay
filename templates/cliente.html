@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos Disponibles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Incluimos FontAwesome para los íconos -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #8e46bd; /* Color naranja pastel */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000; /* Colocar la barra en la parte superior */
+        }
+
+        .logo {
+            margin-left: 45px; /* Espacio entre el borde y el logo */
+        }
+
+        .menu-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 20px;
+            position: absolute;
+            left: 10px;
+        }
+
+        .wallet-info {
+            font-size: 18px;
+            margin-right: 20px; /* Espacio entre el saldo y el borde */
+            color: white;
+        }
+
+        /* Menú lateral */
+        .side-menu {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1001;
+            top: 0;
+            left: 0;
+            background-color: #d6cfcf;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .side-menu a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .side-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .side-menu .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .menu-active {
+            width: 250px; /* Tamaño del menú lateral desplegable */
+        }
+
+        .menu-icons {
+            margin-right: 10px; /* Espacio entre ícono y texto */
+        }
+
+        /* Ajuste para el contenido para evitar superposición */
+        .container {
+            margin-top: 80px; /* Espacio para no sobreponerse con la barra superior */
+        }
+    </style>
+    <script>
+        function abrirModal(productoId) {
+            document.getElementById("producto_id").value = productoId;
+            document.getElementById("modal").style.display = "block";
+        }
+
+        function cerrarModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        function openMenu() {
+            document.getElementById("sideMenu").style.width = "250px";
+        }
+
+        function closeMenu() {
+            document.getElementById("sideMenu").style.width = "0";
+        }
+    </script>
+</head>
+<body>
+    <div class="top-bar">
+        <!-- Logo en la esquina izquierda -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="150">
+        </div>
+
+        <!-- Icono de menú lateral (tres líneas) -->
+        <span class="menu-icon" onclick="openMenu()">&#9776;</span>
+
+        <!-- Información de la billetera en la esquina derecha -->
+        <div class="wallet-info">
+            <a href="{{ url_for('billetera') }}" style="color: white;">Saldo: S/ {{ saldo }}</a>
+        </div>
+    </div>
+
+    <!-- Menú lateral -->
+    <div id="sideMenu" class="side-menu">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+        <a href="{{ url_for('cliente_panel') }}">
+            <i class="fas fa-home menu-icons"></i>Inicio
+        </a>
+        <a href="{{ url_for('ver_enviados') }}">
+            <i class="fas fa-box menu-icons"></i>Mis Pedidos
+        </a>
+        <a href="{{ url_for('billetera') }}">
+            <i class="fas fa-wallet menu-icons"></i>Ver Billetera
+        </a>
+        <a href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt menu-icons"></i>Cerrar Sesión
+        </a>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <h1>Productos Disponibles</h1>
+        <div class="product-grid">
+            {% for producto in productos %}
+                <div class="product-card">
+                    <img src="{{ url_for('static', filename='uploads/' + producto['imagen']) }}" alt="Imagen de {{ producto['nombre'] }}">
+                    <h2>{{ producto['nombre'] }}</h2>
+                    <p>Precio: {{ producto['precio'] }} soles</p>
+                    <button class="btn" onclick="abrirModal('{{ producto['id'] }}')">Enviar Producto</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal para enviar producto -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2>Enviar Producto</h2>
+            <form method="POST" action="{{ url_for('enviar_producto') }}">
+                <input type="hidden" name="producto_id" id="producto_id">
+                <label for="nombre_cliente">Nombre del Cliente:</label>
+                <input type="text" name="nombre_cliente_final" required>
+
+                <label for="destino">Destino:</label>
+                <input type="text" name="destino" required>
+
+                <label for="celular">Celular:</label>
+                <input type="text" name="celular" required>
+
+                <button type="submit">Enviar Producto</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

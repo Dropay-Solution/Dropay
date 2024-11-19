@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('admin_panel') }}">Inicio</a></li>
+            <li><a href="{{ url_for('admin_ver_enviados') }}">Ver Enviados</a></li>
+            <li><a href="{{ url_for('agregar_producto') }}">Agregar Producto</a></li>
+            <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Gestión de Productos</h1>
+        <div class="productos-grid">
+            {% for producto in productos %}
+            <div class="producto-item">
+                <img src="{{ url_for('static', filename='uploads/' + producto['imagen']) }}" alt="Imagen de {{ producto['nombre'] }}" width="100" height="100">
+                <h3>{{ producto['nombre'] }}</h3>
+                <p>Precio: S/ {{ producto['precio'] }}</p>
+                <a href="{{ url_for('editar_producto', producto_id=producto['id']) }}">Editar</a>
+                <!-- Botón para eliminar producto -->
+                <form action="{{ url_for('eliminar_producto', producto_id=producto['id']) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

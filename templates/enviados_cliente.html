@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Envíos del Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('cliente_panel') }}">Inicio</a></li>
+            <li><a href="{{ url_for('ver_enviados') }}">Ver Enviados</a></li>
+            <li><a href="{{ url_for('billetera') }}">Ver Billetera</a></li>
+            <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Mis Envíos</h1>
+
+        <!-- Botones para ordenar por fecha -->
+        <div class="ordenar">
+            <a href="{{ url_for('ver_enviados', orden='asc') }}">Ordenar por fecha (Antiguo a Reciente)</a> |
+            <a href="{{ url_for('ver_enviados', orden='desc') }}">Ordenar por fecha (Reciente a Antiguo)</a>
+        </div>
+
+        <!-- Tabla de envíos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Nombre Cliente Final</th> <!-- Nueva columna para el cliente final -->
+                    <th>Destino</th>
+                    <th>Celular</th>
+                    <th>Fecha de Envío</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for envio in envios %}
+                <tr>
+                    <td>{{ envio['producto_nombre'] }}</td>
+                    <td>{{ envio['nombre_cliente'] }}</td> <!-- Mostrar el cliente final -->
+                    <td>{{ envio['destino'] }}</td>
+                    <td>{{ envio['celular'] }}</td>
+                    <td>{{ envio['fecha_envio'] }}</td>
+                    <td>{{ envio['estado'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

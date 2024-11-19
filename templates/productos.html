@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos Disponibles</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <ul>
+        {% for producto in productos %}
+            <li>{{ producto[1] }} - {{ producto[2] }} soles
+                <a href="{{ url_for('enviar_producto', producto_id=producto[0]) }}">Enviar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

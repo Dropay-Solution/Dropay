@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('admin_panel') }}">Inicio</a></li>
+            <li><a href="{{ url_for('admin_ver_enviados') }}">Ver Enviados</a></li>
+            <li><a href="{{ url_for('agregar_producto') }}">Agregar Producto</a></li>
+            <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Agregar Producto</h1>
+        <form method="POST" action="/agregar_producto" enctype="multipart/form-data">
+            <label for="nombre">Nombre del Producto:</label>
+            <input type="text" name="nombre" required>
+
+            <label for="precio">Precio:</label>
+            <input type="number" step="0.01" name="precio" required>
+
+            <label for="imagen">Imagen:</label>
+            <input type="file" name="imagen" accept="image/*" required>
+
+            <button type="submit">Agregar Producto</button>
+        </form>
+    </div>
+</body>
+</html>
