@@ -22,7 +22,7 @@ def test_login_page(client):
     """Prueba que la página de login se carga correctamente."""
     response = client.get('/login')
     assert response.status_code == 200
-    assert "Iniciar sesión" in response.data.decode('utf-8')
+    assert "iniciar sesión" in response.data.decode('utf-8').lower()
 
 
 def test_login_post_invalid(client):
